@@ -1,25 +1,35 @@
 <!DOCTYPE html>
+<html>
+<head>
+<title>Similar Opposite Infographic</title>
 <meta charset="utf-8">
 <link href="../src/nv.d3.css" rel="stylesheet" type="text/css">
 <style>
 
 body {
-  overflow-y:scroll;
+  overflow-y: scroll;
+  font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
 }
 
 text {
   font: 12px sans-serif;
 }
-
-.mypiechart {
-  width: 500px;
-  border: 2px;
+.chart {
+  float: left;
+  text-align: center;
 }
 </style>
+</head>
 <body class='with-3d-shadow with-transitions'>
+  <div class="chart">
+    <h2>Women Like Me</h2>
+    <svg id="female" class="piechart"></svg>
+  </div>
+  <div class="chart">
+    <h2>Men Like Me</h2>
+    <svg id="male" class="piechart"></svg>
+  </div>
 
-<h2>Test1</h2>
-<svg id="test1" class="mypiechart"></svg>
 
 <script src="../lib/d3.v3.js"></script>
 <script src="../nv.d3.js"></script>
@@ -29,25 +39,40 @@ text {
 <script src="../src/utils.js"></script>
 <script>
 
-  var testdata = [
-    {
-      key: "Same",
-      y: 5
-    },
+  var femaleData = [
     {
       key: "Similar",
-      y: 2
+      y: 15
     },
     {
-      key: "Contrasting",
-      y: 9
+      key: "Harmonious",
+      y: 30
+    },
+    {
+      key: "Opposites Attract",
+      y: 55
+    },
+  ];
+
+  var maleData = [
+    {
+      key: "Similar",
+      y: 13
+    },
+    {
+      key: "Harmonious",
+      y: 57
+    },
+    {
+      key: "Opposites Attract",
+      y: 30
     },
   ];
 
 
 nv.addGraph(function() {
-    var width = 500,
-        height = 500;
+    var width = 400,
+        height = 400;
 
     var chart = nv.models.pieChart()
         .x(function(d) { return d.key })
@@ -56,9 +81,35 @@ nv.addGraph(function() {
         .width(width)
         .height(height);
         
+        chart.pie.pieLabelsOutside(false).labelType("percent");
 
-      d3.select("#test1")
-          .datum(testdata)
+      d3.select("#female")
+          .datum(femaleData)
+        .transition().duration(1200)
+          .attr('width', width)
+          .attr('height', height)
+          .call(chart);
+
+    chart.dispatch.on('stateChange', function(e) { nv.log('New State:', JSON.stringify(e)); });
+
+    return chart;
+});
+
+nv.addGraph(function() {
+    var width = 400,
+        height = 400;
+
+    var chart = nv.models.pieChart()
+        .x(function(d) { return d.key })
+        .y(function(d) { return d.y })
+        .color(['#4C72A9', '#82AAD1', '#0A1F52'])
+        .width(width)
+        .height(height);
+        
+        chart.pie.pieLabelsOutside(false).labelType("percent");
+
+      d3.select("#male")
+          .datum(maleData)
         .transition().duration(1200)
           .attr('width', width)
           .attr('height', height)
@@ -71,3 +122,5 @@ nv.addGraph(function() {
 
 
 </script>
+</body>
+</html>
