@@ -91,14 +91,14 @@ text {
   margin-right: 10px;
 }
 .people-wrapper {
-  width: 225px;
+  width: 455px;
   overflow: hidden;
   float: left;
 }
 .people .people-row {
   position: relative;
   left: 0px;
-  width: 1000px;
+  width: 2000px;
   transition: all 0.5s linear 0s;
   -webkit-transition: all 0.5s linear 0s;
 }
@@ -191,43 +191,133 @@ text {
   var peopleSimilar = [
     {
       name: "Sparky",
-      id: "3",
+      id: "100",
       img: "dog.png",
       hmb: "h"
     },
     {
       name: "Paco",
-      id: "9",
+      id: "101",
       img: "husky.png",
       hmb: "m"
     },
     {
       name: "Porky",
-      id: "5",
+      id: "102",
       img: "lab.png",
       hmb: "b"
     },
     {
       name: "Hog",
-      id: "12",
+      id: "103",
       img: "collie.png",
       hmb: "b"
     },
     {
       name: "Cat",
-      id: "7",
+      id: "104",
       img: "pug.png",
       hmb: "h"
     },
     {
       name: "Paco",
-      id: "9",
+      id: "105",
       img: "husky.png",
       hmb: "m"
     },
     {
       name: "Hog",
-      id: "12",
+      id: "106",
+      img: "collie.png",
+      hmb: "b"
+    },
+    {
+      name: "Hog",
+      id: "108",
+      img: "collie.png",
+      hmb: "b"
+    },
+    {
+      name: "Cat",
+      id: "109",
+      img: "pug.png",
+      hmb: "h"
+    },
+    {
+      name: "Paco",
+      id: "110",
+      img: "husky.png",
+      hmb: "m"
+    },
+    {
+      name: "Hog",
+      id: "111",
+      img: "collie.png",
+      hmb: "b"
+    },
+    {
+      name: "Sparky",
+      id: "200",
+      img: "dog.png",
+      hmb: "h"
+    },
+    {
+      name: "Paco",
+      id: "210",
+      img: "husky.png",
+      hmb: "m"
+    },
+    {
+      name: "Porky",
+      id: "220",
+      img: "lab.png",
+      hmb: "b"
+    },
+    {
+      name: "Hog",
+      id: "230",
+      img: "collie.png",
+      hmb: "b"
+    },
+    {
+      name: "Cat",
+      id: "240",
+      img: "pug.png",
+      hmb: "h"
+    },
+    {
+      name: "Paco",
+      id: "250",
+      img: "husky.png",
+      hmb: "m"
+    },
+    {
+      name: "Hog",
+      id: "260",
+      img: "collie.png",
+      hmb: "b"
+    },
+    {
+      name: "Hog",
+      id: "270",
+      img: "collie.png",
+      hmb: "b"
+    },
+    {
+      name: "Cat",
+      id: "280",
+      img: "pug.png",
+      hmb: "h"
+    },
+    {
+      name: "Paco",
+      id: "290",
+      img: "husky.png",
+      hmb: "m"
+    },
+    {
+      name: "Hog",
+      id: "300",
       img: "collie.png",
       hmb: "b"
     }
@@ -261,7 +351,7 @@ Graph.generatePeople = function(people) {
     for (var i = 0; i < people.length; i++) {
         peopleList += 
             "<div class='person " + people[i]['hmb'] + "' id='" + people[i]['id'] + "'> \
-                <div class='profilepic' style='background-image:url(../images/" + people[i]['img'] + ")'></div> \
+                <div class='profilepic' style='background-image:url(http://placekitten.com/" + people[i]['id'] + "/" + people[i]['id'] + ")'></div> \
             </div>"
     }
     peopleList += "</div></div> \
@@ -345,6 +435,11 @@ $(document).ready(function(){
     $('.more').click(function(){
       var peopleRowWidth = $('.people-wrapper').css('width');
       $(this).parent().find('.people-row').css('left','-='+peopleRowWidth);
+    });
+
+    $('.back').click(function(){
+      var peopleRowWidth = $('.people-wrapper').css('width');
+      $(this).parent().find('.people-row').css('left','+='+peopleRowWidth);
     })
 });
 
