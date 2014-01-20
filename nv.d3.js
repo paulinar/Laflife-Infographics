@@ -10441,7 +10441,8 @@ nv.models.pie = function() {
                 group.append('text')
                     .style('text-anchor', labelSunbeamLayout ? ((d.startAngle + d.endAngle) / 2 < Math.PI ? 'start' : 'end') : 'middle') //center the text on it's origin or begin/end if orthogonal aligned
                     .style('fill', '#FFF')
-                    .style('font-size', '25px')
+                    .style('font-size', '22px')
+                    .style('font-family', "'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif")
 
             });
 
@@ -11090,7 +11091,7 @@ nv.models.scatter = function() {
       gEnter.append('g').attr('class', 'nv-groups');
       gEnter.append('g').attr('class', 'nv-point-paths');
 
-      wrap.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+      wrap.attr('transform', 'translate(' + 0 + ',' + 0 + ')'); // carina's change
 
       //------------------------------------------------------------
 

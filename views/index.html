@@ -14,24 +14,121 @@ body {
 text {
   font: 12px sans-serif;
 }
+.piechart {
+  width: 260px;
+  height: 260px;
+  position: relative;
+  top: -50px;
+  left: -30px;
+}
+
+.chart:first-of-type {
+  margin-left: 170px;
+}
+
 .chart {
   float: left;
+}
+.chart .legend, .chart .pie {
+  float: left;
+}
+.chart h2 {
   text-align: center;
+}
+/*.chart .legend {
+  margin-top: 90px;
+}
+.chart .legend .item {
+  overflow: hidden;
+  margin-top: 20px;
+}
+.chart .legend .item > div {
+  float: right;
+}
+.chart .legend .label {
+  line-height: 30px;
+}
+.chart .legend .color {
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  margin-left: 10px;
+}*/
+
+#legend {
+  clear: left;
+  float: left;
+  margin-left: 20px;
+}
+#legend .item {
+  overflow: hidden;
+  padding: 21px 0;
+}
+#legend .item > div {
+  float: right;
+}
+#legend .label {
+  line-height: 35px;
+}
+#legend .color {
+  width: 35px;
+  height: 35px;
+  border-radius: 35px;
+  margin-left: 10px;
+}
+
+.people {
+  float: left;
+  margin-left: 20px;
+}
+.people > div {
+  overflow: hidden;
+  padding: 5px 0;
+}
+.person {
+  overflow: hidden;
+  float: left;
+  margin-right: 10px;
+}
+.person .profilepic {
+  width: 60px;
+  height: 60px;
+  background-size:60px 60px;
+  border: 3px solid #000;
+  border-radius: 60px;
+}
+.person.h .profilepic {
+  border-color: #FF4013;
+}
+.person.m .profilepic {
+  border-color: #FB9F00;
+}
+.person.b .profilepic {
+  border-color: #5C9A00;
 }
 </style>
 </head>
 <body class='with-3d-shadow with-transitions'>
   <div class="chart">
-    <h2>Women Like Me</h2>
-    <svg id="female" class="piechart"></svg>
+    <div class="pie">
+      <h2>Women Like Me</h2>
+      <svg id="female" class="piechart"></svg>
+    </div>
   </div>
   <div class="chart">
     <h2>Men Like Me</h2>
     <svg id="male" class="piechart"></svg>
   </div>
+  <div id="legend"></div>
+  <div class="people">
+    <div id="people-similar"></div>
+    <div id="people-harmonious"></div>
+    <div id="people-opposite"></div>
+  </div>
 
-
+<script src="../lib/jquery.min.js"></script>
 <script src="../lib/d3.v3.js"></script>
+<script src="../lib/d3.legend.js"></script>
 <script src="../nv.d3.js"></script>
 <script src="../src/models/legend.js"></script>
 <script src="../src/models/pie.js"></script>
@@ -42,53 +139,151 @@ text {
   var femaleData = [
     {
       key: "Similar",
-      y: 15
+      y: 15,
+      color: '#4C72A9'
     },
     {
       key: "Harmonious",
-      y: 30
+      y: 30,
+      color: '#82AAD1'
     },
     {
       key: "Opposites Attract",
-      y: 55
+      y: 55,
+      color: '#0A1F52'
     },
   ];
 
   var maleData = [
     {
       key: "Similar",
-      y: 13
+      y: 13,
+      color: '#4C72A9'
     },
     {
       key: "Harmonious",
-      y: 57
+      y: 57,
+      color: '#82AAD1'
     },
     {
       key: "Opposites Attract",
-      y: 30
+      y: 30,
+      color: '#0A1F52'
     },
   ];
 
+  var peopleSimilar = [
+    {
+      name: "Sparky",
+      id: "3",
+      img: "dog.png",
+      hmb: "h"
+    },
+    {
+      name: "Paco",
+      id: "9",
+      img: "husky.png",
+      hmb: "m"
+    },
+    {
+      name: "Porky",
+      id: "5",
+      img: "lab.png",
+      hmb: "b"
+    },
+    {
+      name: "Hog",
+      id: "12",
+      img: "collie.png",
+      hmb: "b"
+    },
+    {
+      name: "Cat",
+      id: "7",
+      img: "pug.png",
+      hmb: "h"
+    },
+    {
+      name: "Paco",
+      id: "9",
+      img: "husky.png",
+      hmb: "m"
+    },
+    {
+      name: "Hog",
+      id: "12",
+      img: "collie.png",
+      hmb: "b"
+    }
+  ];
+
+var Graph = {};
+Graph.getColors = function(data) {
+    data.length = Object.keys(data).length;
+    var colors = [];
+    for (var i = 0; i < data.length; i++) {
+        colors.push(data[i]['color']);
+    }
+    return colors;
+}
+Graph.generateLegend = function(data) {
+    var legend = "<div class='legend'>";
+    data.length = Object.keys(data).length;
+    for (var i = 0; i < data.length; i++) {
+        legend += 
+            "<div class='item'> \
+                <div class='color' style='background-color:" + data[i]['color'] + ";'></div> \
+                <div class='label'>" + data[i]['key'] + "</div> \
+            </div>"
+    }
+    legend += "</div>"
+    return legend;
+}
+Graph.generatePeople = function(people) {
+    var peopleList = "<div>";
+    people.length = Object.keys(people).length;
+    for (var i = 0; i < people.length; i++) {
+        peopleList += 
+            "<div class='person " + people[i]['hmb'] + "' id='" + people[i]['id'] + "'> \
+                <div class='profilepic' style='background-image:url(../images/" + people[i]['img'] + ")'></div> \
+            </div>"
+    }
+    peopleList += "</div>"
+    return peopleList;
+}
 
 nv.addGraph(function() {
-    var width = 400,
-        height = 400;
+    var width = 300,
+        height = 300;
+    
+    var data = femaleData;
 
     var chart = nv.models.pieChart()
         .x(function(d) { return d.key })
         .y(function(d) { return d.y })
-        .color(['#4C72A9', '#82AAD1', '#0A1F52'])
+        .color(Graph.getColors(data))
         .width(width)
-        .height(height);
+        .height(height)
+        .showLegend(false);
         
         chart.pie.pieLabelsOutside(false).labelType("percent");
 
       d3.select("#female")
-          .datum(femaleData)
-        .transition().duration(1200)
+          .datum(data)
+          .transition().duration(1200)
           .attr('width', width)
           .attr('height', height)
           .call(chart);
+
+      // legend = svg.append("g")
+      //     .attr("class","legend")
+      //     .attr("transform","translate(50,30)")
+      //     .style("font-size","12px")
+      //     .call(d3.legend);
+
+
+      // d3.select(".nv-legendWrap")
+      //   .attr("transform", "translate(-40,-30)");
 
     chart.dispatch.on('stateChange', function(e) { nv.log('New State:', JSON.stringify(e)); });
 
@@ -96,21 +291,24 @@ nv.addGraph(function() {
 });
 
 nv.addGraph(function() {
-    var width = 400,
-        height = 400;
+    var width = 300,
+        height = 300;
+
+    var data = maleData;
 
     var chart = nv.models.pieChart()
         .x(function(d) { return d.key })
         .y(function(d) { return d.y })
-        .color(['#4C72A9', '#82AAD1', '#0A1F52'])
+        .color(Graph.getColors(data))
         .width(width)
-        .height(height);
+        .height(height)
+        .showLegend(false);
         
         chart.pie.pieLabelsOutside(false).labelType("percent");
 
       d3.select("#male")
-          .datum(maleData)
-        .transition().duration(1200)
+          .datum(data)
+          .transition().duration(1200)
           .attr('width', width)
           .attr('height', height)
           .call(chart);
@@ -120,6 +318,13 @@ nv.addGraph(function() {
     return chart;
 });
 
+$(document).ready(function(){
+    $('#legend').append(Graph.generateLegend(femaleData));
+    $('#people-similar').append(Graph.generatePeople(peopleSimilar));
+    $('#people-harmonious').append(Graph.generatePeople(peopleSimilar));
+    $('#people-opposite').append(Graph.generatePeople(peopleSimilar));
+    $('.nv-pieChart').attr('transform', 'translate(-10,-10)');
+});
 
 </script>
 </body>
