@@ -90,6 +90,22 @@ text {
   float: left;
   margin-right: 10px;
 }
+.people-wrapper {
+  width: 225px;
+  overflow: hidden;
+  float: left;
+}
+.people .people-row {
+  position: relative;
+  left: 0px;
+  width: 1000px;
+  transition: all 0.5s linear 0s;
+  -webkit-transition: all 0.5s linear 0s;
+}
+.people .more {
+  float: left;
+  margin: 23px 0;
+}
 .person .profilepic {
   width: 60px;
   height: 60px;
@@ -240,7 +256,7 @@ Graph.generateLegend = function(data) {
     return legend;
 }
 Graph.generatePeople = function(people) {
-    var peopleList = "<div>";
+    var peopleList = "<div class='people-wrapper'><div class='people-row'>";
     people.length = Object.keys(people).length;
     for (var i = 0; i < people.length; i++) {
         peopleList += 
@@ -248,7 +264,8 @@ Graph.generatePeople = function(people) {
                 <div class='profilepic' style='background-image:url(../images/" + people[i]['img'] + ")'></div> \
             </div>"
     }
-    peopleList += "</div>"
+    peopleList += "</div></div> \
+                  <button class='more'>More</button>"
     return peopleList;
 }
 
@@ -278,16 +295,6 @@ nv.addGraph(function() {
           .attr('width', width)
           .attr('height', height)
           .call(chart);
-
-      // legend = svg.append("g")
-      //     .attr("class","legend")
-      //     .attr("transform","translate(50,30)")
-      //     .style("font-size","12px")
-      //     .call(d3.legend);
-
-
-      // d3.select(".nv-legendWrap")
-      //   .attr("transform", "translate(-40,-30)");
 
     chart.dispatch.on('stateChange', function(e) { nv.log('New State:', JSON.stringify(e)); });
 
@@ -328,10 +335,17 @@ nv.addGraph(function() {
 
 $(document).ready(function(){
     $('#legend').append(Graph.generateLegend(femaleData));
+
     $('#people-similar').append(Graph.generatePeople(peopleSimilar));
     $('#people-harmonious').append(Graph.generatePeople(peopleSimilar));
     $('#people-opposite').append(Graph.generatePeople(peopleSimilar));
+
     $('.nv-pieChart').attr('transform', 'translate(-10,-10)');
+
+    $('.more').click(function(){
+      var peopleRowWidth = $('.people-wrapper').css('width');
+      $(this).parent().find('.people-row').css('left','-='+peopleRowWidth);
+    })
 });
 
 
