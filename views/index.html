@@ -103,10 +103,6 @@ text {
   transition: all 0.5s linear 0s;
   -webkit-transition: all 0.5s linear 0s;
 }
-.people .more {
-  float: left;
-  margin: 23px 0;
-}
 .person .profilepic {
   width: 60px;
   height: 60px;
@@ -347,7 +343,7 @@ Graph.generateLegend = function(data) {
     return legend;
 }
 Graph.generatePeople = function(people) {
-    var peopleList = "<div class='people-wrapper'><div class='people-row'>";
+    var peopleList = "<div class='left-arrow' type='button'></div><div class='people-wrapper'><div class='people-row'>"
     people.length = Object.keys(people).length;
     for (var i = 0; i < people.length; i++) {
         peopleList += 
@@ -356,7 +352,7 @@ Graph.generatePeople = function(people) {
             </div>"
     }
     peopleList += "</div></div> \
-                  <button class='more'>More</button>"
+                  <div class='right-arrow' type='button'></div>"
     return peopleList;
 }
 
@@ -433,12 +429,13 @@ $(document).ready(function(){
 
     $('.nv-pieChart').attr('transform', 'translate(-10,-10)');
 
-    $('.more').click(function(){
+    $('.right-arrow').click(function(){
       var peopleRowWidth = $('.people-wrapper').css('width');
       $(this).parent().find('.people-row').css('left','-='+peopleRowWidth);
+      $(this).parent().find('.left-arrow').css('visibility', 'visible');
     });
 
-    $('.back').click(function(){
+    $('.left-arrow').click(function(){
       var peopleRowWidth = $('.people-wrapper').css('width');
       $(this).parent().find('.people-row').css('left','+='+peopleRowWidth);
     })
