@@ -433,6 +433,10 @@ $(document).ready(function(){
       var peopleRowWidth = $('.people-wrapper').css('width');
       $(this).parent().find('.people-row').css('left','-='+peopleRowWidth);
       $(this).parent().find('.left-arrow').css('visibility', 'visible');
+      if ($(this).parent().find('.people-row').css('left') == '0px') {
+        alert("hi");
+        $(this).parent().find('.left-arrow').css('visibility', 'hidden');
+      }
     });
 
     $('.left-arrow').click(function(){
