@@ -428,21 +428,42 @@ $(document).ready(function(){
     $('#people-opposite').append(Graph.generatePeople(peopleSimilar));
 
     $('.nv-pieChart').attr('transform', 'translate(-10,-10)');
+    var pointer = 0;
+
+    var pointers = {
+      'people-similar' : 0,
+      'people-harmonious': 0,
+      'people-opposite': 0
+    };
+
 
     $('.right-arrow').click(function(){
+      pointers[$(this).parent().attr('id')] += 1
       var peopleRowWidth = $('.people-wrapper').css('width');
       $(this).parent().find('.people-row').css('left','-='+peopleRowWidth);
       $(this).parent().find('.left-arrow').css('visibility', 'visible');
-      if ($(this).parent().find('.people-row').css('left') == '0px') {
-        alert("hi");
-        $(this).parent().find('.left-arrow').css('visibility', 'hidden');
-      }
     });
 
     $('.left-arrow').click(function(){
-      var peopleRowWidth = $('.people-wrapper').css('width');
-      $(this).parent().find('.people-row').css('left','+='+peopleRowWidth);
+      pointers[$(this).parent().attr('id')] -= 1;
+      if (pointers[$(this).parent().attr('id')] > 0) {
+        checkLeftPointer(this);
+        var peopleRowWidth = $('.people-wrapper').css('width');
+        $(this).parent().find('.people-row').css('left','+='+peopleRowWidth);
+      } else {
+          checkLeftPointer(this);
+          $(this).parent().find('.people-row').css('left', '0px');
+      }
     })
+
+    var checkLeftPointer = function(obj) {
+      if (pointers[$(obj).parent().attr('id')] <= 0) {
+        $(obj).css('visibility', 'hidden');
+      } else {
+        $(obj).css('visibility', 'visible');
+      }
+    }
+
 });
 
 
